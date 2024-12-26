@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  us_id       Int       @id @default(autoincrement())
+  us_name     String
+  us_email    String    @unique
+  us_password String
+  us_active   Boolean
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  UserRoles   UserRole[]
+
+  @@map("user")
+}
+
+model Role {
+  rl_id     Int       @id @default(autoincrement())
+  rl_name   String
+  UserRoles UserRole[]
+
+  @@map("role")
+}
+
+model UserRole {
+  ur_id     Int  @id @default(autoincrement())
+  ur_roleId Int
+  ur_userId Int
+
+  Role Role @relation(fields: [ur_roleId], references: [rl_id])
+  User User @relation(fields: [ur_userId], references: [us_id])
+
+  @@map("userRole")
+}
+
+model Campaign {
+  id                 Int      @id @default(autoincrement())
+  cpn_title          String
+  cpn_description    String
+  cpn_target_amount  Int
+  cpn_collected_amount Int
+  cpn_active         Boolean
+  start_date         DateTime
+  end_date           DateTime
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  category_id        Int
+  Category           Category @relation(fields: [category_id], references: [id])
+
+  @@map("campaign")
+}
+
+model Category {
+  id        Int         @id @default(autoincrement())
+  name      String
+  Campaigns Campaign[]
+
+  @@map("category")
+}
+
+
