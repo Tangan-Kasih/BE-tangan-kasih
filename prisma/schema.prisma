@@ -47,7 +47,7 @@ model UserRole {
 }
 
 model Campaign {
-  id                 Int      @id @default(autoincrement())
+  cpn_id             Int      @id @default(autoincrement())
   cpn_title          String
   cpn_image          String
   cpn_description    String
@@ -60,15 +60,15 @@ model Campaign {
   updated_at         DateTime @updatedAt
   user_id            Int
   category_id        Int
-  Category           Category @relation(fields: [category_id], references: [id])
+  Category           Category @relation(fields: [category_id], references: [ct_id])
   User               User @relation(fields: [user_id], references: [us_id])
 
   @@map("campaign")
 }
 
 model Category {
-  id        Int         @id @default(autoincrement())
-  name      String
+  ct_id        Int         @id @default(autoincrement())
+  ct_name      String
   Campaigns Campaign[]
 
   @@map("category")
