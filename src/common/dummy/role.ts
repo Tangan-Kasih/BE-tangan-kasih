@@ -1,0 +1,14 @@
+export const roleData = [
+  {
+    rl_id: 1,
+    rl_name: 'user',
+  },
+  {
+    rl_id: 2,
+    rl_name: 'guest',
+  },
+  {
+    rl_id: 3,
+    rl_name: 'admin',
+  },
+];
